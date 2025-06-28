@@ -1,2 +1,0 @@
-[console_scripts]
-applimiter = applimiter.main:main

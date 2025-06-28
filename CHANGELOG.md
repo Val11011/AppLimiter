@@ -5,32 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2025-06-28
 
-### Fixed
-- **Corrected `remove` command logic**: The `remove` command now correctly cleans up usage data from `usage_data.json` in addition to removing the application from `config.json`, preventing orphaned data.
-- **Restored `pending apply` functionality**: Fixed a critical bug where the command dispatch logic incorrectly bypassed the `pending` command, making it impossible to apply pending changes. The command dispatcher in `cli.py` has been refactored for robustness.
-
-### Changed
-- The notification logic in `daemon.py` no longer sends a 10-minute warning. The `notif_*_10_sent` flags have been removed from the data structure and reset logic accordingly.
-
----
-
-## [1.0.0] - 2025-06-17
-
-This marks the first stable release.
+This is the first official public release of AppLimiter.
 
 ### Added
-- A modular package structure under the `app_limiter/` directory to separate concerns like CLI, daemon logic, and utilities.
-- A `CHANGELOG.md` file to document project changes over time.
-- A `main.py` as the single, clean entry point for the application.
-- A template for the `app_limiter.service` file within the project directory.
 
-### Changed
-- **Refactored** the entire project from a single `app_limiter.py` script into a professional, modular Python package.
-- **Internationalized** all user-facing strings in the command-line interface and daemon logs from Chinese to English.
-- The `systemd` service file now points to the new `main.py` entry point.
-- The `__init__.py` file now exposes a clean public API for the package.
+- **Core Functionality**:
+    - `daemon`: A robust background service that runs as `root` to monitor and track application usage against daily and weekly time limits.
+    - `cli`: A powerful command-line interface to manage all aspects of the application.
 
-### Removed
-- The monolithic `app_limiter.py` script has been replaced by the new package structure.
+- **Key Features**:
+    - **Differentiated Time Limits**: Set separate usage limits for weekdays and weekends.
+    - **Process Management**: Intelligently finds processes by keywords and terminates them gracefully (with a `kill` fallback) after a grace period.
+    - **Desktop Notifications**: Uses `zenity` to send warnings and alerts to the active user's desktop, even when run as `root`.
+    - **Configuration Delay**: An optional safety feature that queues sensitive changes (like increasing time limits or removing apps) for a configurable time period before they can be applied.
+    - **Pending Queue Management**: Full CLI support for listing, clearing, and applying pending configuration changes.
+    - **Manual Usage Adjustment**: A command to manually add or remove usage time for any application.
+
+- **Project Structure & Tooling**:
+    - **Professional `src`-layout**: The project is structured as a standard Python package, separating source code from tests and metadata.
+    - **Automated Installer (`install.sh`)**: A user-friendly installation script that deploys the application, sets up system directories, and installs both a `systemd` service and a system-wide `applimiter` command.
+    - **Command-Line Shim Script**: Ensures the `applimiter` command works seamlessly for both regular users and with `sudo`.
+    - **Comprehensive Test Suite**: A full test suite using `pytest` and `pytest-mock` to ensure code quality and stability.
+    - **Complete Documentation**: A `README.md` file with clear installation and usage instructions.
+    - **`pyproject.toml`**: Manages project metadata and dependencies.
+    - **`LICENSE`**: An MIT License is included to clarify open-source usage rights.
+    - **`.gitignore`**: Configured to keep the repository clean.
