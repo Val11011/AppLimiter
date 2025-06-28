@@ -1,0 +1,22 @@
+# Virtual Environment
+.venv/
+venv/
+
+# Python Caches
+__pycache__/
+*.pyc
+
+# IDE and editor directories
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Testing directories
